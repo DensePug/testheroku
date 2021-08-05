@@ -20,7 +20,13 @@ namespace Summary.API
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+#if DEBUG
                     webBuilder.UseStartup<Startup>();
+#else
+                    webBuilder.UseStartup<Startup>().
+                        UseKestrel().
+                        UseUrls("http://0.0.0.0:" + Environment.GetEnvironmentVariable("PORT"));
+#endif
                 });
     }
 }
